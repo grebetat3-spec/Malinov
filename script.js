@@ -240,12 +240,20 @@ function clearSocialForm() {
 function saveAllChanges() {
     localStorage.setItem('malinovContent', JSON.stringify(contentData));
     showNotification('✅ Все изменения сохранены! Обновите страницы.');
+    
+    // Принудительно обновляем все страницы
+    updateAllPages();
 }
 
 function loadContentData() {
     const savedData = localStorage.getItem('malinovContent');
     if (savedData) {
-        contentData = JSON.parse(savedData);
+        try {
+            contentData = JSON.parse(savedData);
+        } catch (e) {
+            console.error('Ошибка загрузки данных:', e);
+            loadDefaultContent();
+        }
     } else {
         loadDefaultContent();
     }
@@ -256,6 +264,7 @@ function clearAllContent() {
         contentData = { releases: [], plans: [], social: [] };
         localStorage.removeItem('malinovContent');
         showNotification('🗑️ Весь контент очищен!');
+        updateAllPages();
     }
 }
 
@@ -292,7 +301,14 @@ function loadDefaultContent() {
 }
 
 function showNotification(message) {
+    // Удаляем старое уведомление если есть
+    const oldNotification = document.querySelector('.admin-notification');
+    if (oldNotification) {
+        oldNotification.remove();
+    }
+
     const notification = document.createElement('div');
+    notification.className = 'admin-notification';
     notification.style.cssText = `
         position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
         background: var(--neon-blue); color: black; padding: 15px 25px;
@@ -312,8 +328,10 @@ function showNotification(message) {
 // ==================== ФУНКЦИИ ДЛЯ СТРАНИЦ ====================
 
 function renderReleases(container) {
+    if (!container) return;
+    
     if (!contentData.releases || contentData.releases.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет релизов</p>';
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет релизов. Добавьте их через админ-панель!</p>';
         return;
     }
     
@@ -321,21 +339,32 @@ function renderReleases(container) {
         <div class="release-card">
             <div class="release-art">
                 <div class="album-cover neon-album-1">
-                    <div class="album-title">${release.title.toUpperCase()}</div>
+                    <div class="album-title">${release.title.toUpperCase().substring(0, 10)}</div>
                 </div>
             </div>
             <div class="release-info">
                 <h3>${release.title}</h3>
                 <p class="release-date">${release.date}</p>
                 <p class="release-desc">${release.description}</p>
+                <div class="track-list">
+                    <div class="track">
+                        <span>Трек 1</span>
+                        <audio controls>
+                            <source src="assets/music/track1.mp3" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио
+                        </audio>
+                    </div>
+                </div>
             </div>
         </div>
     `).join('');
 }
 
 function renderPlans(container) {
+    if (!container) return;
+    
     if (!contentData.plans || contentData.plans.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет планов</p>';
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет планов. Добавьте их через админ-панель!</p>';
         return;
     }
     
@@ -351,8 +380,10 @@ function renderPlans(container) {
 }
 
 function renderSocial(container) {
+    if (!container) return;
+    
     if (!contentData.social || contentData.social.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет соцсетей</p>';
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет соцсетей. Добавьте их через админ-панель!</p>';
         return;
     }
     
@@ -365,8 +396,17 @@ function renderSocial(container) {
         email: 'fas fa-envelope'
     };
     
+    const platformColors = {
+        spotify: '#1DB954',
+        youtube: '#FF0000',
+        instagram: '#E4405F',
+        telegram: '#0088cc',
+        soundcloud: '#ff7700',
+        email: '#4ecdc4'
+    };
+    
     container.innerHTML = contentData.social.map(social => `
-        <a href="${social.link}" class="social-card ${social.platform}" target="_blank">
+        <a href="${social.link}" class="social-card" target="_blank" style="border-color: ${platformColors[social.platform] || '#4ecdc4'};">
             <i class="${platformIcons[social.platform] || 'fas fa-link'}"></i>
             <h3>${getPlatformName(social.platform)}</h3>
             <p>${social.description}</p>
@@ -386,3 +426,24 @@ function getPlatformName(platform) {
     };
     return names[platform] || platform;
 }
+
+// ==================== ОБНОВЛЕНИЕ ВСЕХ СТРАНИЦ ====================
+
+function updateAllPages() {
+    // Обновляем текущую страницу
+    const releasesContainer = document.getElementById('releasesContainer');
+    const plansContainer = document.getElementById('plansContainer');
+    const socialContainer = document.getElementById('socialContainer');
+    
+    if (releasesContainer) renderReleases(releasesContainer);
+    if (plansContainer) renderPlans(plansContainer);
+    if (socialContainer) renderSocial(socialContainer);
+}
+
+// ==================== ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ ВСЕХ СТРАНИЦ ====================
+
+// Делаем функции глобальными для доступа со всех страниц
+window.renderReleases = renderReleases;
+window.renderPlans = renderPlans;
+window.renderSocial = renderSocial;
+window.updateAllPages = updateAllPages;
