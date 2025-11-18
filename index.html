@@ -80,6 +80,48 @@
         </div>
     </main>
 
+    <!-- Секретная кнопка активации -->
+    <div id="secretTrigger" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: rgba(255, 0, 255, 0.2); border: 2px solid var(--neon-pink); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--neon-pink); font-size: 24px; z-index: 9998;">
+        ⚙️
+    </div>
+
+    <!-- Окно ввода пароля -->
+    <div id="adminLogin" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 10, 10, 0.95); padding: 30px; border-radius: 15px; z-index: 9999; border: 2px solid var(--neon-pink); color: white; width: 400px; text-align: center; backdrop-filter: blur(10px);">
+        <h3 style="color: var(--neon-pink); margin-bottom: 20px;">🔐 ДОСТУП К ПАНЕЛИ АДМИНА</h3>
+        <input type="password" id="adminPassword" placeholder="Введите пароль" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--neon-blue); border-radius: 8px; color: white; font-size: 16px; margin-bottom: 15px;">
+        <button onclick="checkAdminPassword()" style="width: 100%; padding: 12px; background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">ВОЙТИ</button>
+        <button onclick="hideAdminLogin()" style="width: 100%; padding: 12px; background: #666; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">ОТМЕНА</button>
+    </div>
+
+    <!-- Панель админа -->
+    <div id="adminPanel" style="display: none; position: fixed; top: 50px; right: 20px; background: rgba(10, 10, 10, 0.95); padding: 25px; border-radius: 15px; z-index: 9999; border: 2px solid var(--neon-pink); color: white; width: 500px; max-height: 80vh; overflow-y: auto; backdrop-filter: blur(10px);">
+        <h3 style="color: var(--neon-pink); margin-bottom: 20px; text-align: center;">👑 ПАНЕЛЬ АДМИНА MALINOV</h3>
+        
+        <div style="margin: 15px 0;">
+            <label style="color: var(--neon-blue); display: block; margin-bottom: 8px; font-weight: bold;">Редактировать РЕЛИЗЫ (HTML):</label>
+            <textarea id="releasesContent" rows="12" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--neon-blue); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px;"></textarea>
+        </div>
+        
+        <div style="margin: 15px 0;">
+            <label style="color: var(--neon-blue); display: block; margin-bottom: 8px; font-weight: bold;">Редактировать ПЛАНЫ (HTML):</label>
+            <textarea id="plansContent" rows="10" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--neon-blue); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px;"></textarea>
+        </div>
+
+        <div style="margin: 15px 0;">
+            <label style="color: var(--neon-blue); display: block; margin-bottom: 8px; font-weight: bold;">Редактировать СОЦСЕТИ (HTML):</label>
+            <textarea id="socialContent" rows="8" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--neon-blue); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px;"></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="saveAdminChanges()" style="flex: 1; background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">💾 СОХРАНИТЬ</button>
+            <button onclick="hideAdminPanel()" style="flex: 1; background: #ff4444; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">❌ ЗАКРЫТЬ</button>
+        </div>
+        
+        <div style="margin-top: 15px; text-align: center;">
+            <button onclick="resetAllContent()" style="background: #ff7700; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px;">🔄 Сбросить к исходному</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
