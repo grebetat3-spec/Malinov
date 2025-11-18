@@ -93,7 +93,7 @@
         <button onclick="hideAdminLogin()" style="width: 100%; padding: 12px; background: #666; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">ОТМЕНА</button>
     </div>
 
-    <!-- Панель админа -->
+      <!-- Панель админа -->
     <div id="adminPanel" style="display: none; position: fixed; top: 50px; right: 20px; background: rgba(10, 10, 10, 0.95); padding: 25px; border-radius: 15px; z-index: 9999; border: 2px solid var(--neon-pink); color: white; width: 500px; max-height: 80vh; overflow-y: auto; backdrop-filter: blur(10px);">
         <h3 style="color: var(--neon-pink); margin-bottom: 20px; text-align: center;">👑 ПАНЕЛЬ АДМИНА MALINOV</h3>
         
@@ -114,6 +114,31 @@
             <div style="margin-bottom: 15px;">
                 <label style="display: block; margin-bottom: 5px;">Описание:</label>
                 <textarea id="albumDescription" placeholder="Опишите альбом..." rows="3" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--neon-blue); border-radius: 5px; color: white;"></textarea>
+            </div>
+
+            <!-- Ссылки на платформы -->
+            <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                <h5 style="color: var(--neon-green); margin-bottom: 10px;">🔗 ССЫЛКИ НА ПЛАТФОРМЫ</h5>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Spotify:</label>
+                    <input type="text" id="spotifyLink" placeholder="https://open.spotify.com/..." style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid #1DB954; border-radius: 5px; color: white; font-size: 14px;">
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">SoundCloud:</label>
+                    <input type="text" id="soundcloudLink" placeholder="https://soundcloud.com/..." style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid #ff7700; border-radius: 5px; color: white; font-size: 14px;">
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">YouTube:</label>
+                    <input type="text" id="youtubeLink" placeholder="https://youtube.com/..." style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid #FF0000; border-radius: 5px; color: white; font-size: 14px;">
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Apple Music:</label>
+                    <input type="text" id="appleLink" placeholder="https://music.apple.com/..." style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid #000000; border-radius: 5px; color: white; font-size: 14px;">
+                </div>
             </div>
             
             <button onclick="addNewRelease()" style="width: 100%; padding: 10px; background: var(--neon-blue); color: black; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">➕ ДОБАВИТЬ РЕЛИЗ</button>
@@ -197,6 +222,3 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
