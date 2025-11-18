@@ -70,13 +70,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 2000);
 });
 
-// ==================== АДМИН-ПАНЕЛЬ С ПАРОЛЕМ ====================
+// ==================== АДМИН-ПАНЕЛЬ С ПРОСТЫМ УПРАВЛЕНИЕМ ====================
 
 const ADMIN_PASSWORD = "922334";
 let adminPressTimer;
 
-// Активация панели админа
+// Данные контента
+let contentData = {
+    releases: [],
+    plans: [],
+    social: []
+};
+
+// Инициализация
 document.addEventListener('DOMContentLoaded', function() {
+    loadContentData();
+    setupAdminPanel();
+});
+
+function setupAdminPanel() {
     const secretTrigger = document.getElementById('secretTrigger');
     if (secretTrigger) {
         secretTrigger.addEventListener('mousedown', function() {
@@ -95,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearTimeout(adminPressTimer);
         });
     }
-});
+}
 
 function showAdminLogin() {
     document.getElementById('adminLogin').style.display = 'block';
@@ -121,7 +133,6 @@ function checkAdminPassword() {
 }
 
 function showAdminPanel() {
-    loadAdminContent();
     document.getElementById('adminPanel').style.display = 'block';
 }
 
@@ -129,42 +140,159 @@ function hideAdminPanel() {
     document.getElementById('adminPanel').style.display = 'none';
 }
 
-function loadAdminContent() {
-    // Загружаем сохранённый контент или исходный
-    document.getElementById('releasesContent').value = localStorage.getItem('malinovReleases') || getDefaultReleases();
-    document.getElementById('plansContent').value = localStorage.getItem('malinovPlans') || getDefaultPlans();
-    document.getElementById('socialContent').value = localStorage.getItem('malinovSocial') || getDefaultSocial();
-}
+// ==================== УПРАВЛЕНИЕ РЕЛИЗАМИ ====================
 
-function saveAdminChanges() {
-    // Сохраняем изменения
-    localStorage.setItem('malinovReleases', document.getElementById('releasesContent').value);
-    localStorage.setItem('malinovPlans', document.getElementById('plansContent').value);
-    localStorage.setItem('malinovSocial', document.getElementById('socialContent').value);
+function addNewRelease() {
+    const title = document.getElementById('albumTitle').value.trim();
+    const date = document.getElementById('albumDate').value.trim();
+    const description = document.getElementById('albumDescription').value.trim();
     
-    // Показываем уведомление
-    showNotification('✅ Изменения сохранены! Обнови страницы релизов/планов/соцсетей');
+    if (!title || !date || !description) {
+        alert('❌ Заполните все поля!');
+        return;
+    }
+    
+    const newRelease = {
+        id: Date.now(),
+        title: title,
+        date: date,
+        description: description
+    };
+    
+    contentData.releases.push(newRelease);
+    clearReleaseForm();
+    showNotification('✅ Релиз добавлен! Сохраните изменения.');
 }
 
-function resetAllContent() {
-    if (confirm('Точно сбросить ВЕСЬ контент к исходному?')) {
-        localStorage.removeItem('malinovReleases');
-        localStorage.removeItem('malinovPlans');
-        localStorage.removeItem('malinovSocial');
-        loadAdminContent();
-        showNotification('🔄 Контент сброшен к исходному');
+function clearReleaseForm() {
+    document.getElementById('albumTitle').value = '';
+    document.getElementById('albumDate').value = '';
+    document.getElementById('albumDescription').value = '';
+}
+
+// ==================== УПРАВЛЕНИЕ ПЛАНАМИ ====================
+
+function addNewPlan() {
+    const date = document.getElementById('planDate').value.trim();
+    const title = document.getElementById('planTitle').value.trim();
+    const description = document.getElementById('planDescription').value.trim();
+    const status = document.getElementById('planStatus').value;
+    
+    if (!date || !title || !description) {
+        alert('❌ Заполните все поля!');
+        return;
     }
+    
+    const newPlan = {
+        id: Date.now(),
+        date: date,
+        title: title,
+        description: description,
+        status: status
+    };
+    
+    contentData.plans.push(newPlan);
+    clearPlanForm();
+    showNotification('✅ План добавлен! Сохраните изменения.');
+}
+
+function clearPlanForm() {
+    document.getElementById('planDate').value = '';
+    document.getElementById('planTitle').value = '';
+    document.getElementById('planDescription').value = '';
+    document.getElementById('planStatus').value = 'upcoming';
+}
+
+// ==================== УПРАВЛЕНИЕ СОЦСЕТЯМИ ====================
+
+function addNewSocial() {
+    const platform = document.getElementById('socialPlatform').value;
+    const link = document.getElementById('socialLink').value.trim();
+    const description = document.getElementById('socialDescription').value.trim();
+    const username = document.getElementById('socialUsername').value.trim();
+    
+    if (!link || !description || !username) {
+        alert('❌ Заполните все поля!');
+        return;
+    }
+    
+    const newSocial = {
+        id: Date.now(),
+        platform: platform,
+        link: link,
+        description: description,
+        username: username
+    };
+    
+    contentData.social.push(newSocial);
+    clearSocialForm();
+    showNotification('✅ Соцсеть добавлена! Сохраните изменения.');
+}
+
+function clearSocialForm() {
+    document.getElementById('socialLink').value = '';
+    document.getElementById('socialDescription').value = '';
+    document.getElementById('socialUsername').value = '';
+}
+
+// ==================== СОХРАНЕНИЕ И ЗАГРУЗКА ДАННЫХ ====================
+
+function saveAllChanges() {
+    localStorage.setItem('malinovContent', JSON.stringify(contentData));
+    showNotification('✅ Все изменения сохранены! Обновите страницы.');
+}
+
+function loadContentData() {
+    const savedData = localStorage.getItem('malinovContent');
+    if (savedData) {
+        contentData = JSON.parse(savedData);
+    } else {
+        loadDefaultContent();
+    }
+}
+
+function clearAllContent() {
+    if (confirm('❌ ТОЧНО ОЧИСТИТЬ ВЕСЬ КОНТЕНТ? Это нельзя отменить!')) {
+        contentData = { releases: [], plans: [], social: [] };
+        localStorage.removeItem('malinovContent');
+        showNotification('🗑️ Весь контент очищен!');
+    }
+}
+
+function loadDefaultContent() {
+    contentData = {
+        releases: [
+            {
+                id: 1,
+                title: "Neon Dreams",
+                date: "Вышел 15 декабря 2024",
+                description: "Экспериментальный синтвейв с элементами электроники"
+            }
+        ],
+        plans: [
+            {
+                id: 1,
+                date: "Февраль 2024",
+                title: "Новый EP 'Digital Dreams'",
+                description: "Работа над новым мини-альбомом из 5 треков",
+                status: "current"
+            }
+        ],
+        social: [
+            {
+                id: 1,
+                platform: "spotify",
+                link: "https://spotify.com",
+                description: "Слушай мои треки",
+                username: "@malinovmusic"
+            }
+        ]
+    };
+    showNotification('🔄 Загружены примеры контента! Сохраните изменения.');
 }
 
 function showNotification(message) {
-    // Удаляем старое уведомление если есть
-    const oldNotification = document.querySelector('.admin-notification');
-    if (oldNotification) {
-        oldNotification.remove();
-    }
-
     const notification = document.createElement('div');
-    notification.className = 'admin-notification';
     notification.style.cssText = `
         position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
         background: var(--neon-blue); color: black; padding: 15px 25px;
@@ -181,48 +309,80 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Исходный контент по умолчанию
-function getDefaultReleases() {
-    return `<!-- Пример релиза -->
-<div class="release-card">
-    <div class="release-art">
-        <div class="album-cover neon-album-1">
-            <div class="album-title">NEON DREAMS</div>
-        </div>
-    </div>
-    <div class="release-info">
-        <h3>Neon Dreams</h3>
-        <p class="release-date">Вышел 15 декабря 2024</p>
-        <p class="release-desc">Экспериментальный синтвейв с элементами электроники</p>
-        <div class="track-list">
-            <div class="track">
-                <span>1. Digital Sunrise</span>
-                <audio controls>
-                    <source src="assets/music/digital-sunrise.mp3" type="audio/mpeg">
-                </audio>
+// ==================== ФУНКЦИИ ДЛЯ СТРАНИЦ ====================
+
+function renderReleases(container) {
+    if (!contentData.releases || contentData.releases.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет релизов</p>';
+        return;
+    }
+    
+    container.innerHTML = contentData.releases.map(release => `
+        <div class="release-card">
+            <div class="release-art">
+                <div class="album-cover neon-album-1">
+                    <div class="album-title">${release.title.toUpperCase()}</div>
+                </div>
+            </div>
+            <div class="release-info">
+                <h3>${release.title}</h3>
+                <p class="release-date">${release.date}</p>
+                <p class="release-desc">${release.description}</p>
             </div>
         </div>
-    </div>
-</div>`;
+    `).join('');
 }
 
-function getDefaultPlans() {
-    return `<!-- Пример плана -->
-<div class="timeline-item current">
-    <div class="timeline-date">Февраль 2024</div>
-    <div class="timeline-content">
-        <h3>Новый EP "Digital Dreams"</h3>
-        <p>Работа над новым мини-альбомом из 5 треков</p>
-    </div>
-</div>`;
+function renderPlans(container) {
+    if (!contentData.plans || contentData.plans.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет планов</p>';
+        return;
+    }
+    
+    container.innerHTML = contentData.plans.map(plan => `
+        <div class="timeline-item ${plan.status}">
+            <div class="timeline-date">${plan.date}</div>
+            <div class="timeline-content">
+                <h3>${plan.title}</h3>
+                <p>${plan.description}</p>
+            </div>
+        </div>
+    `).join('');
 }
 
-function getDefaultSocial() {
-    return `<!-- Пример соцсети -->
-<a href="https://spotify.com" class="social-card spotify">
-    <i class="fab fa-spotify"></i>
-    <h3>Spotify</h3>
-    <p>Слушай мои треки</p>
-    <span class="social-handle">@malinovmusic</span>
-</a>`;
+function renderSocial(container) {
+    if (!contentData.social || contentData.social.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет соцсетей</p>';
+        return;
+    }
+    
+    const platformIcons = {
+        spotify: 'fab fa-spotify',
+        youtube: 'fab fa-youtube',
+        instagram: 'fab fa-instagram',
+        telegram: 'fab fa-telegram',
+        soundcloud: 'fab fa-soundcloud',
+        email: 'fas fa-envelope'
+    };
+    
+    container.innerHTML = contentData.social.map(social => `
+        <a href="${social.link}" class="social-card ${social.platform}" target="_blank">
+            <i class="${platformIcons[social.platform] || 'fas fa-link'}"></i>
+            <h3>${getPlatformName(social.platform)}</h3>
+            <p>${social.description}</p>
+            <span class="social-handle">${social.username}</span>
+        </a>
+    `).join('');
+}
+
+function getPlatformName(platform) {
+    const names = {
+        spotify: 'Spotify',
+        youtube: 'YouTube',
+        instagram: 'Instagram',
+        telegram: 'Telegram',
+        soundcloud: 'SoundCloud',
+        email: 'Email'
+    };
+    return names[platform] || platform;
 }
