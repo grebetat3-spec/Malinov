@@ -717,4 +717,64 @@ audio {
     .timeline-date {
         margin-bottom: 1rem;
     }
+
+}
+/* Стили для кнопок платформ */
+.platform-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.platform-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.platform-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.spotify-btn {
+    background: #1DB954;
+    color: white;
+}
+
+.soundcloud-btn {
+    background: #ff7700;
+    color: white;
+}
+
+.youtube-btn {
+    background: #FF0000;
+    color: white;
+}
+
+.apple-btn {
+    background: #000000;
+    color: white;
+}
+
+/* Адаптивность для кнопок */
+@media (max-width: 768px) {
+    .platform-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .platform-btn {
+        padding: 12px 15px;
+        font-size: 16px;
+    }
 }
