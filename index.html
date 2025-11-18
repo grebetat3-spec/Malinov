@@ -6,6 +6,7 @@
     <title>Malinov Edition - Официальный сайт</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Анимированный фон -->
@@ -93,7 +94,7 @@
         <button onclick="hideAdminLogin()" style="width: 100%; padding: 12px; background: #666; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">ОТМЕНА</button>
     </div>
 
-      <!-- Панель админа -->
+    <!-- Панель админа -->
     <div id="adminPanel" style="display: none; position: fixed; top: 50px; right: 20px; background: rgba(10, 10, 10, 0.95); padding: 25px; border-radius: 15px; z-index: 9999; border: 2px solid var(--neon-pink); color: white; width: 500px; max-height: 80vh; overflow-y: auto; backdrop-filter: blur(10px);">
         <h3 style="color: var(--neon-pink); margin-bottom: 20px; text-align: center;">👑 ПАНЕЛЬ АДМИНА MALINOV</h3>
         
@@ -222,3 +223,104 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
+    <script>
+        // Простая инициализация админ-панели
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Сайт загружен!');
+            
+            const secretTrigger = document.getElementById('secretTrigger');
+            if (secretTrigger) {
+                console.log('Шестерёнка найдена');
+                
+                let pressTimer;
+                
+                secretTrigger.addEventListener('mousedown', function() {
+                    console.log('Мышь нажата');
+                    pressTimer = setTimeout(function() {
+                        console.log('Показываем логин');
+                        document.getElementById('adminLogin').style.display = 'block';
+                    }, 1000);
+                });
+
+                secretTrigger.addEventListener('mouseup', function() {
+                    console.log('Мышь отпущена');
+                    clearTimeout(pressTimer);
+                });
+
+                secretTrigger.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    console.log('Тач начат');
+                    pressTimer = setTimeout(function() {
+                        console.log('Показываем логин (тач)');
+                        document.getElementById('adminLogin').style.display = 'block';
+                    }, 1000);
+                });
+
+                secretTrigger.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    console.log('Тач окончен');
+                    clearTimeout(pressTimer);
+                });
+            } else {
+                console.log('Шестерёнка НЕ найдена!');
+            }
+        });
+
+        // Простые функции для админ-панели
+        function checkAdminPassword() {
+            const password = document.getElementById('adminPassword').value;
+            console.log('Проверка пароля:', password);
+            
+            if (password === "922334") {
+                hideAdminLogin();
+                showAdminPanel();
+            } else {
+                alert('❌ Неверный пароль!');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function hideAdminLogin() {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'block';
+            console.log('Панель админа показана');
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        // Временные функции для тестирования
+        function addNewRelease() {
+            alert('✅ Функция добавления релиза работает!');
+        }
+
+        function addNewPlan() {
+            alert('✅ Функция добавления плана работает!');
+        }
+
+        function addNewSocial() {
+            alert('✅ Функция добавления соцсети работает!');
+        }
+
+        function saveAllChanges() {
+            alert('💾 Все изменения сохранены!');
+        }
+
+        function clearAllContent() {
+            if (confirm('❌ Очистить весь контент?')) {
+                alert('🗑️ Контент очищен!');
+            }
+        }
+
+        function loadDefaultContent() {
+            alert('🔄 Загружены примеры контента!');
+        }
+    </script>
+</body>
+</html>
