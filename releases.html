@@ -36,75 +36,9 @@
 
     <script src="script.js"></script>
     <script>
-        // Загрузка кастомного контента для релизов
         document.addEventListener('DOMContentLoaded', function() {
-            const customContent = localStorage.getItem('malinovReleases');
             const container = document.getElementById('releasesContainer');
-            
-            if (customContent) {
-                container.innerHTML = customContent;
-            } else {
-                // Контент по умолчанию
-                container.innerHTML = `
-                    <div class="release-card">
-                        <div class="release-art">
-                            <div class="album-cover neon-album-1">
-                                <div class="album-title">NEON DREAMS</div>
-                            </div>
-                        </div>
-                        <div class="release-info">
-                            <h3>Neon Dreams</h3>
-                            <p class="release-date">Вышел 15 декабря 2024</p>
-                            <p class="release-desc">Экспериментальный синтвейв с элементами электроники</p>
-                            <div class="track-list">
-                                <div class="track">
-                                    <span>1. Digital Sunrise</span>
-                                    <audio controls>
-                                        <source src="assets/music/digital-sunrise.mp3" type="audio/mpeg">
-                                        Ваш браузер не поддерживает аудио элемент
-                                    </audio>
-                                </div>
-                                <div class="track">
-                                    <span>2. Cyber Love</span>
-                                    <audio controls>
-                                        <source src="assets/music/cyber-love.mp3" type="audio/mpeg">
-                                        Ваш браузер не поддерживает аудио элемент
-                                    </audio>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="release-card">
-                        <div class="release-art">
-                            <div class="album-cover neon-album-2">
-                                <div class="album-title">VOID ECHOES</div>
-                            </div>
-                        </div>
-                        <div class="release-info">
-                            <h3>Void Echoes</h3>
-                            <p class="release-date">Вышел 10 ноября 2024</p>
-                            <p class="release-desc">Дарквейв и экспериментальный саунд</p>
-                            <div class="track-list">
-                                <div class="track">
-                                    <span>1. Empty Space</span>
-                                    <audio controls>
-                                        <source src="assets/music/empty-space.mp3" type="audio/mpeg">
-                                        Ваш браузер не поддерживает аудио элемент
-                                    </audio>
-                                </div>
-                                <div class="track">
-                                    <span>2. Lost Signal</span>
-                                    <audio controls>
-                                        <source src="assets/music/lost-signal.mp3" type="audio/mpeg">
-                                        Ваш браузер не поддерживает аудио элемент
-                                    </audio>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
+            renderReleases(container);
         });
     </script>
 </body>
