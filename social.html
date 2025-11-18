@@ -30,49 +30,67 @@
     <main class="social-page">
         <h1 class="page-title">СОЦСЕТИ И КОНТАКТЫ</h1>
         
-        <div class="social-grid">
-            <a href="https://spotify.com" class="social-card spotify">
-                <i class="fab fa-spotify"></i>
-                <h3>Spotify</h3>
-                <p>Слушай мои треки</p>
-                <span class="social-handle">@malinovmusic</span>
-            </a>
-
-            <a href="https://youtube.com" class="social-card youtube">
-                <i class="fab fa-youtube"></i>
-                <h3>YouTube</h3>
-                <p>Видео и клипы</p>
-                <span class="social-handle">Malinov Edition</span>
-            </a>
-
-            <a href="https://instagram.com" class="social-card instagram">
-                <i class="fab fa-instagram"></i>
-                <h3>Instagram</h3>
-                <p>За кулисами творчества</p>
-                <span class="social-handle">@malinov.edition</span>
-            </a>
-
-            <a href="https://t.me" class="social-card telegram">
-                <i class="fab fa-telegram"></i>
-                <h3>Telegram</h3>
-                <p>Новости и общение</p>
-                <span class="social-handle">@malinov_channel</span>
-            </a>
-
-            <a href="https://soundcloud.com" class="social-card soundcloud">
-                <i class="fab fa-soundcloud"></i>
-                <h3>SoundCloud</h3>
-                <p>Экспериментальные треки</p>
-                <span class="social-handle">Malinov</span>
-            </a>
-
-            <a href="mailto:contact@malinov.com" class="social-card email">
-                <i class="fas fa-envelope"></i>
-                <h3>Email</h3>
-                <p>Для сотрудничества</p>
-                <span class="social-handle">contact@malinov.com</span>
-            </a>
+        <div class="social-grid" id="socialContainer">
+            <!-- Контент будет загружен динамически -->
         </div>
     </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Загрузка кастомного контента для соцсетей
+        document.addEventListener('DOMContentLoaded', function() {
+            const customContent = localStorage.getItem('malinovSocial');
+            const container = document.getElementById('socialContainer');
+            
+            if (customContent) {
+                container.innerHTML = customContent;
+            } else {
+                // Контент по умолчанию
+                container.innerHTML = `
+                    <a href="https://spotify.com" class="social-card spotify">
+                        <i class="fab fa-spotify"></i>
+                        <h3>Spotify</h3>
+                        <p>Слушай мои треки</p>
+                        <span class="social-handle">@malinovmusic</span>
+                    </a>
+
+                    <a href="https://youtube.com" class="social-card youtube">
+                        <i class="fab fa-youtube"></i>
+                        <h3>YouTube</h3>
+                        <p>Видео и клипы</p>
+                        <span class="social-handle">Malinov Edition</span>
+                    </a>
+
+                    <a href="https://instagram.com" class="social-card instagram">
+                        <i class="fab fa-instagram"></i>
+                        <h3>Instagram</h3>
+                        <p>За кулисами творчества</p>
+                        <span class="social-handle">@malinov.edition</span>
+                    </a>
+
+                    <a href="https://t.me" class="social-card telegram">
+                        <i class="fab fa-telegram"></i>
+                        <h3>Telegram</h3>
+                        <p>Новости и общение</p>
+                        <span class="social-handle">@malinov_channel</span>
+                    </a>
+
+                    <a href="https://soundcloud.com" class="social-card soundcloud">
+                        <i class="fab fa-soundcloud"></i>
+                        <h3>SoundCloud</h3>
+                        <p>Экспериментальные треки</p>
+                        <span class="social-handle">Malinov</span>
+                    </a>
+
+                    <a href="mailto:contact@malinov.com" class="social-card email">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>Для сотрудничества</p>
+                        <span class="social-handle">contact@malinov.com</span>
+                    </a>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>
