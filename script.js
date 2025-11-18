@@ -346,14 +346,23 @@ function renderReleases(container) {
                 <h3>${release.title}</h3>
                 <p class="release-date">${release.date}</p>
                 <p class="release-desc">${release.description}</p>
-                <div class="track-list">
-                    <div class="track">
-                        <span>Трек 1</span>
-                        <audio controls>
-                            <source src="assets/music/track1.mp3" type="audio/mpeg">
-                            Ваш браузер не поддерживает аудио
-                        </audio>
-                    </div>
+                <div class="platform-buttons">
+                    <a href="https://spotify.com" target="_blank" class="platform-btn spotify-btn">
+                        <i class="fab fa-spotify"></i>
+                        Spotify
+                    </a>
+                    <a href="https://soundcloud.com" target="_blank" class="platform-btn soundcloud-btn">
+                        <i class="fab fa-soundcloud"></i>
+                        SoundCloud
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="platform-btn youtube-btn">
+                        <i class="fab fa-youtube"></i>
+                        YouTube
+                    </a>
+                    <a href="https://apple.com/music" target="_blank" class="platform-btn apple-btn">
+                        <i class="fab fa-apple"></i>
+                        Apple Music
+                    </a>
                 </div>
             </div>
         </div>
