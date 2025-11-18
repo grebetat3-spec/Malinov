@@ -146,9 +146,13 @@ function addNewRelease() {
     const title = document.getElementById('albumTitle').value.trim();
     const date = document.getElementById('albumDate').value.trim();
     const description = document.getElementById('albumDescription').value.trim();
+    const spotifyLink = document.getElementById('spotifyLink').value.trim();
+    const soundcloudLink = document.getElementById('soundcloudLink').value.trim();
+    const youtubeLink = document.getElementById('youtubeLink').value.trim();
+    const appleLink = document.getElementById('appleLink').value.trim();
     
     if (!title || !date || !description) {
-        alert('❌ Заполните все поля!');
+        alert('❌ Заполните название, дату и описание!');
         return;
     }
     
@@ -156,7 +160,13 @@ function addNewRelease() {
         id: Date.now(),
         title: title,
         date: date,
-        description: description
+        description: description,
+        links: {
+            spotify: spotifyLink || "https://spotify.com",
+            soundcloud: soundcloudLink || "https://soundcloud.com", 
+            youtube: youtubeLink || "https://youtube.com",
+            apple: appleLink || "https://apple.com/music"
+        }
     };
     
     contentData.releases.push(newRelease);
@@ -168,6 +178,94 @@ function clearReleaseForm() {
     document.getElementById('albumTitle').value = '';
     document.getElementById('albumDate').value = '';
     document.getElementById('albumDescription').value = '';
+    document.getElementById('spotifyLink').value = '';
+    document.getElementById('soundcloudLink').value = '';
+    document.getElementById('youtubeLink').value = '';
+    document.getElementById('appleLink').value = '';
+}
+
+// ==================== ФУНКЦИЯ RENDER RELEASES ====================
+
+function renderReleases(container) {
+    if (!container) return;
+    
+    if (!contentData.releases || contentData.releases.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #ccc; padding: 40px;">Пока нет релизов. Добавьте их через админ-панель!</p>';
+        return;
+    }
+    
+    container.innerHTML = contentData.releases.map(release => `
+        <div class="release-card">
+            <div class="release-art">
+                <div class="album-cover neon-album-1">
+                    <div class="album-title">${release.title.toUpperCase().substring(0, 10)}</div>
+                </div>
+            </div>
+            <div class="release-info">
+                <h3>${release.title}</h3>
+                <p class="release-date">${release.date}</p>
+                <p class="release-desc">${release.description}</p>
+                <div class="platform-buttons">
+                    <a href="${release.links.spotify}" target="_blank" class="platform-btn spotify-btn">
+                        <i class="fab fa-spotify"></i>
+                        Spotify
+                    </a>
+                    <a href="${release.links.soundcloud}" target="_blank" class="platform-btn soundcloud-btn">
+                        <i class="fab fa-soundcloud"></i>
+                        SoundCloud
+                    </a>
+                    <a href="${release.links.youtube}" target="_blank" class="platform-btn youtube-btn">
+                        <i class="fab fa-youtube"></i>
+                        YouTube
+                    </a>
+                    <a href="${release.links.apple}" target="_blank" class="platform-btn apple-btn">
+                        <i class="fab fa-apple"></i>
+                        Apple Music
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ==================== ОБНОВЛЁННАЯ ФУНКЦИЯ LOAD DEFAULT CONTENT ====================
+
+function loadDefaultContent() {
+    contentData = {
+        releases: [
+            {
+                id: 1,
+                title: "Neon Dreams",
+                date: "Вышел 15 декабря 2024",
+                description: "Экспериментальный синтвейв с элементами электроники",
+                links: {
+                    spotify: "https://open.spotify.com/album/example",
+                    soundcloud: "https://soundcloud.com/malinov/sets/neon-dreams",
+                    youtube: "https://youtube.com/playlist?list=example",
+                    apple: "https://music.apple.com/album/example"
+                }
+            }
+        ],
+        plans: [
+            {
+                id: 1,
+                date: "Февраль 2024",
+                title: "Новый EP 'Digital Dreams'",
+                description: "Работа над новым мини-альбомом из 5 треков",
+                status: "current"
+            }
+        ],
+        social: [
+            {
+                id: 1,
+                platform: "spotify",
+                link: "https://spotify.com",
+                description: "Слушай мои треки",
+                username: "@malinovmusic"
+            }
+        ]
+    };
+    showNotification('🔄 Загружены примеры контента! Сохраните изменения.');
 }
 
 // ==================== УПРАВЛЕНИЕ ПЛАНАМИ ====================
@@ -456,3 +554,4 @@ window.renderReleases = renderReleases;
 window.renderPlans = renderPlans;
 window.renderSocial = renderSocial;
 window.updateAllPages = updateAllPages;
+
