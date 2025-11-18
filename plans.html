@@ -29,47 +29,65 @@
     <main class="plans-page">
         <h1 class="page-title">МОИ ПЛАНЫ</h1>
         
-        <div class="timeline">
-            <div class="timeline-item completed">
-                <div class="timeline-date">Январь 2024</div>
-                <div class="timeline-content">
-                    <h3>Запуск сайта</h3>
-                    <p>Создание официального сайта Malinov Edition</p>
-                </div>
-            </div>
-
-            <div class="timeline-item current">
-                <div class="timeline-date">Февраль 2024</div>
-                <div class="timeline-content">
-                    <h3>Новый EP "Digital Dreams"</h3>
-                    <p>Работа над новым мини-альбомом из 5 треков</p>
-                </div>
-            </div>
-
-            <div class="timeline-item upcoming">
-                <div class="timeline-date">Март 2024</div>
-                <div class="timeline-content">
-                    <h3>Коллаборации</h3>
-                    <p>Совместные работы с другими артистами</p>
-                </div>
-            </div>
-
-            <div class="timeline-item upcoming">
-                <div class="timeline-date">Апрель 2024</div>
-                <div class="timeline-content">
-                    <h3>Живые выступления</h3>
-                    <p>Подготовка к первым концертным выступлениям</p>
-                </div>
-            </div>
-
-            <div class="timeline-item upcoming">
-                <div class="timeline-date">Лето 2024</div>
-                <div class="timeline-content">
-                    <h3>Полноформатный альбом</h3>
-                    <p>Работа над дебютным альбомом</p>
-                </div>
-            </div>
+        <div class="timeline" id="plansContainer">
+            <!-- Контент будет загружен динамически -->
         </div>
     </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Загрузка кастомного контента для планов
+        document.addEventListener('DOMContentLoaded', function() {
+            const customContent = localStorage.getItem('malinovPlans');
+            const container = document.getElementById('plansContainer');
+            
+            if (customContent) {
+                container.innerHTML = customContent;
+            } else {
+                // Контент по умолчанию
+                container.innerHTML = `
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Январь 2024</div>
+                        <div class="timeline-content">
+                            <h3>Запуск сайта</h3>
+                            <p>Создание официального сайта Malinov Edition</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item current">
+                        <div class="timeline-date">Февраль 2024</div>
+                        <div class="timeline-content">
+                            <h3>Новый EP "Digital Dreams"</h3>
+                            <p>Работа над новым мини-альбомом из 5 треков</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-date">Март 2024</div>
+                        <div class="timeline-content">
+                            <h3>Коллаборации</h3>
+                            <p>Совместные работы с другими артистами</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-date">Апрель 2024</div>
+                        <div class="timeline-content">
+                            <h3>Живые выступления</h3>
+                            <p>Подготовка к первым концертным выступлениям</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-date">Лето 2024</div>
+                        <div class="timeline-content">
+                            <h3>Полноформатный альбом</h3>
+                            <p>Работа над дебютным альбомом</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>
