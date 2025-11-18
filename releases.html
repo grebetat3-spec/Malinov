@@ -36,9 +36,23 @@
 
     <script src="script.js"></script>
     <script>
+        // Загрузка контента при открытии страницы
         document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем данные
+            const savedData = localStorage.getItem('malinovContent');
+            if (savedData) {
+                try {
+                    window.contentData = JSON.parse(savedData);
+                } catch (e) {
+                    console.error('Ошибка загрузки данных:', e);
+                }
+            }
+            
+            // Рендерим контент
             const container = document.getElementById('releasesContainer');
-            renderReleases(container);
+            if (container && window.renderReleases) {
+                window.renderReleases(container);
+            }
         });
     </script>
 </body>
